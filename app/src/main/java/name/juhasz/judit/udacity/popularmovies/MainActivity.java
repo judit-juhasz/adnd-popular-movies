@@ -1,6 +1,7 @@
 package name.juhasz.judit.udacity.popularmovies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -58,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     @Override
     public void onItemClick(Movie movie) {
-        Toast.makeText(this, movie.getTitle(), Toast.LENGTH_SHORT).show();
+        Intent intentToStartDetailsActivity = new Intent(this, DetailsActivity.class);
+        intentToStartDetailsActivity.putExtra(Intent.EXTRA_TEXT, movie.getTitle());
+        startActivity(intentToStartDetailsActivity);
     }
 }

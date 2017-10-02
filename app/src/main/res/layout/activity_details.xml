@@ -6,9 +6,11 @@
     tools:context="name.juhasz.judit.udacity.popularmovies.DetailsActivity">
 
     <TextView
-        android:id="@+id/tv_display_text"
+        android:id="@+id/tv_movie_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Here You can find the details of the selected movie."/>
+        android:text="Here You can find the details of the selected movie."
+        android:textSize="24sp"
+        android:textColor="@color/colorPrimary"/>
 
 </RelativeLayout>
