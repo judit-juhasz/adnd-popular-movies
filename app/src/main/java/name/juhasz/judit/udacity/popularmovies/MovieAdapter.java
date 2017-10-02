@@ -20,10 +20,19 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             new Movie("Black Hawk Down"),
             new Movie("Tangled"),
             new Movie("Pearl Harbour"),
-            new Movie("Saving private Ryan"),
+            new Movie("Saving private Ran"),
             new Movie("Son of Saul"),
     };
 
+    private MovieOnClickListener mListener;
+
+    public interface MovieOnClickListener {
+        void onItemClick(Movie movie);
+    }
+
+    public MovieAdapter(MovieOnClickListener listener) {
+        mListener = listener;
+    }
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -50,7 +59,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         return sDummyData.length;
     }
 
-    public static class MovieViewHolder extends RecyclerView.ViewHolder {
+    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public TextView movieTitleTextView;
 
@@ -58,12 +67,20 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             super(itemView);
 
             movieTitleTextView = (TextView) itemView.findViewById(R.id.tv_movie_title);
+            movieTitleTextView.setOnClickListener(this);
         }
 
         void bind(int position) {
             final Movie movie = sDummyData[position];
             String titleOfMovie = movie.getTitle();
             movieTitleTextView.setText(titleOfMovie);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int adapterPosition = getAdapterPosition();
+            Movie movie = sDummyData[adapterPosition];
+            mListener.onItemClick(movie);
         }
     }
 }

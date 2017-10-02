@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieOnClickListener{
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         mMoviesRecycleView = (RecyclerView) findViewById(R.id.rv_movies);
 
-        final MovieAdapter adapter = new MovieAdapter();
+        final MovieAdapter adapter = new MovieAdapter(this);
         mMoviesRecycleView.setAdapter(adapter);
 
         final int spanCount = 2;
@@ -56,4 +56,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onItemClick(Movie movie) {
+        Toast.makeText(this, movie.getTitle(), Toast.LENGTH_SHORT).show();
+    }
 }
