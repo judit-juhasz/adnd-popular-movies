@@ -5,7 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
+
+
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Judit on 10/2/2017.
@@ -14,14 +17,14 @@ import android.widget.TextView;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
     private static final Movie[] sDummyData = {
-            new Movie("Me before you"),
-            new Movie("Avatar"),
-            new Movie("A beautiful mind"),
-            new Movie("Black Hawk Down"),
-            new Movie("Tangled"),
-            new Movie("Pearl Harbour"),
-            new Movie("Saving private Ran"),
-            new Movie("Son of Saul"),
+            new Movie("Rogue One", "https://images-na.ssl-images-amazon.com/images/M/MV5BMjEwMzMxODIzOV5BMl5BanBnXkFtZTgwNzg3OTAzMDI@._V1_SY1000_SX675_AL_.jpg"),
+            new Movie("The Dark Knight", "https://images-na.ssl-images-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_SY1000_CR0,0,675,1000_AL_.jpg"),
+            new Movie("Pulp Fiction", "https://images-na.ssl-images-amazon.com/images/M/MV5BMTkxMTA5OTAzMl5BMl5BanBnXkFtZTgwNjA5MDc3NjE@._V1_SY1000_CR0,0,673,1000_AL_.jpg"),
+            new Movie("Passangers", "https://images-na.ssl-images-amazon.com/images/M/MV5BMTk4MjU3MDIzOF5BMl5BanBnXkFtZTgwMjM2MzY2MDI@._V1_SY1000_CR0,0,675,1000_AL_.jpg"),
+            new Movie("Forrest Gump", "https://images-na.ssl-images-amazon.com/images/M/MV5BYThjM2MwZGMtMzg3Ny00NGRkLWE4M2EtYTBiNWMzOTY0YTI4XkEyXkFqcGdeQXVyNDYyMDk5MTU@._V1_SY1000_CR0,0,757,1000_AL_.jpg"),
+            new Movie("Moana", "https://images-na.ssl-images-amazon.com/images/M/MV5BMjI4MzU5NTExNF5BMl5BanBnXkFtZTgwNzY1MTEwMDI@._V1_SY1000_CR0,0,674,1000_AL_.jpg"),
+            new Movie("Fight Club", "https://images-na.ssl-images-amazon.com/images/M/MV5BMzc1YmU2ZjEtYWIwMC00ZjM3LWI0NTctMDVlNGQ3YmYwMzE5XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SY999_CR0,0,704,999_AL_.jpg"),
+            new Movie("Frozen", "https://images-na.ssl-images-amazon.com/images/M/MV5BMTQ1MjQwMTE5OF5BMl5BanBnXkFtZTgwNjk3MTcyMDE@._V1_SY1000_CR0,0,674,1000_AL_.jpg")
     };
 
     private MovieOnClickListener mListener;
@@ -44,7 +47,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         boolean shouldAttachToParentImmediately = false;
 
         View view = inflater.inflate(layoutIdForListItem, parent, shouldAttachToParentImmediately);
-        MovieViewHolder viewHolder = new MovieViewHolder(view);
+        MovieViewHolder viewHolder = new MovieViewHolder(context, view);
 
         return viewHolder;
     }
@@ -61,19 +64,23 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        public TextView movieTitleTextView;
+        private final Context mContext;
 
-        public MovieViewHolder(View itemView) {
+        public ImageView moviePoster;
+
+        public MovieViewHolder(Context context, View itemView) {
             super(itemView);
 
-            movieTitleTextView = (TextView) itemView.findViewById(R.id.tv_movie_title);
-            movieTitleTextView.setOnClickListener(this);
+            mContext = context;
+
+            moviePoster = (ImageView) itemView.findViewById(R.id.tv_movie_poster);
+            moviePoster.setOnClickListener(this);
         }
 
         void bind(int position) {
             final Movie movie = sDummyData[position];
-            String titleOfMovie = movie.getTitle();
-            movieTitleTextView.setText(titleOfMovie);
+            final String posterPath = movie.getPosterPath();
+            Picasso.with(mContext).load(posterPath).into(moviePoster);
         }
 
         @Override

@@ -7,12 +7,16 @@ package name.juhasz.judit.udacity.popularmovies;
 public class Movie {
 
     private String mTitle;
+    private String mPosterPath;
 
-    public Movie(String title) {
+    public Movie(String title, String posterPath) {
         mTitle = title;
+        mPosterPath = posterPath;
     }
 
     public String getTitle() {
         return mTitle;
     }
+
+    public String getPosterPath() { return mPosterPath; }
 }
