@@ -21,10 +21,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     private Movie[] mMovies;
 
-    public MovieAdapter(Movie[] movies) {
-        mMovies = movies;
-    }
-
     private MovieAdapter.MovieOnClickListener mListener;
 
     public interface MovieOnClickListener {
@@ -51,6 +47,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         return viewHolder;
     }
 
+    public void setMoviesData(Movie[] movies) {
+        this.mMovies = movies;
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
         final Movie movie = mMovies[position];
@@ -69,14 +70,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private final Context mContext;
-
         private ImageView mMoviePoster;
 
         public MovieViewHolder(Context context, View itemView) {
             super(itemView);
 
             mContext = context;
-
             mMoviePoster = (ImageView) itemView.findViewById(R.id.tv_movie_poster);
             mMoviePoster.setOnClickListener(this);
         }
@@ -89,8 +88,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         @Override
         public void onClick(View view) {
             if (null != mMovies) {
-                int adapterPosition = getAdapterPosition();
-                Movie movie = mMovies[adapterPosition];
+                final int adapterPosition = getAdapterPosition();
+                final Movie movie = mMovies[adapterPosition];
                 mListener.onItemClick(movie);
             } else {
                 Log.wtf(LOG_TAG, "OnClick handler call with empty movie list.");
