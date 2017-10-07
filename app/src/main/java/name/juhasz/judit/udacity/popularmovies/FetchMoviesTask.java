@@ -11,6 +11,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
 /**
  * Created by Judit on 10/4/2017.
  */
@@ -21,16 +22,37 @@ public class FetchMoviesTask extends AsyncTask <Void, Void, Movie[]> {
     private static final String LOG_TAG = FetchMoviesTask.class.getSimpleName();
     private static final String THE_MOVIE_DB_BASE_URL = "http://api.themoviedb.org/3/";
 
+    public static final int MOVIE_LIST_POPULAR = 1;
+    public static final int MOVIE_LIST_TOP_RATED = 2;
+
     private Listener mListener;
     private TheMovieDbService mTheMovieDbService;
+    private int mListType;
 
     interface Listener {
         void onFetchFinished(Movie[] movies);
     }
 
-    public FetchMoviesTask(Listener listener) {
+    public FetchMoviesTask(Listener listener, int listType) {
+
+        if (null == listener) {
+            final String errorMessage = "The listener cannot be null.";
+            Log.e(LOG_TAG, errorMessage);
+            throw new IllegalArgumentException(errorMessage);
+        }
 
         mListener = listener;
+
+        if (listType == MOVIE_LIST_POPULAR) {
+            mListType = listType;
+        } else if (listType == MOVIE_LIST_TOP_RATED) {
+            mListType = listType;
+        } else {
+            final String errorMessage = "Unknown list type for FetchMoviesTask. List type: "
+                    + listType;
+            Log.e(LOG_TAG, errorMessage);
+            throw new IllegalArgumentException(errorMessage);
+        }
 
         final Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(THE_MOVIE_DB_BASE_URL)
@@ -45,11 +67,13 @@ public class FetchMoviesTask extends AsyncTask <Void, Void, Movie[]> {
     @Override
     protected Movie[] doInBackground(Void... params) {
 
-        final String apiKey = BuildConfig.THE_MOVIE_DB_API_KEY;
-        final Call<MovieListResponse> popularMoviesCall = mTheMovieDbService.getPopularMovies(apiKey);
+        final Call<MovieListResponse> moviesCall = getMovieListCall(mListType);
+        if (null == moviesCall) {
+            return null;
+        }
 
         try {
-            final Response<MovieListResponse> response = popularMoviesCall.execute();
+            final Response<MovieListResponse> response = moviesCall.execute();
             if (response.isSuccessful()) {
                 final List<Movie> movies = response.body().getMovies();
 
@@ -70,5 +94,23 @@ public class FetchMoviesTask extends AsyncTask <Void, Void, Movie[]> {
         } else {
             mListener.onFetchFinished(movies);
         }
+    }
+
+    private Call<MovieListResponse> getMovieListCall(int listType) {
+        final String apiKey = BuildConfig.THE_MOVIE_DB_API_KEY;
+
+        Call<MovieListResponse> movieCall = null;
+        switch (listType) {
+            case MOVIE_LIST_POPULAR:
+                movieCall = mTheMovieDbService.getPopularMovies(apiKey);
+                break;
+            case MOVIE_LIST_TOP_RATED:
+                movieCall =  mTheMovieDbService.getTopRatedMovies(apiKey);
+                break;
+            default:
+                Log.wtf(LOG_TAG, "Unknown list type for FetchMoviesTask.");
+        }
+
+        return movieCall;
     }
 }

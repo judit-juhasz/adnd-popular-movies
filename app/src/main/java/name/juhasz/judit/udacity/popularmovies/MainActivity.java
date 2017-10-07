@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);
         mMoviesRecycleView.setLayoutManager(layoutManager);
 
-        new FetchMoviesTask(this).execute();
+        loadMovieList(FetchMoviesTask.MOVIE_LIST_POPULAR);
     }
 
     @Override
@@ -49,9 +49,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         switch (itemId) {
             case R.id.action_switch_most_popular:
+                loadMovieList(FetchMoviesTask.MOVIE_LIST_POPULAR);
                 Toast.makeText(context, "Most popular selected", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_switch_highest_rated:
+                loadMovieList(FetchMoviesTask.MOVIE_LIST_TOP_RATED);
                 Toast.makeText(context, "Highest rated selected.", Toast.LENGTH_SHORT).show();
                 break;
             default:
@@ -70,5 +72,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     public void onFetchFinished(Movie[] movies) {
         mAdapter.setMoviesData(movies);
+    }
+
+    public void loadMovieList(int listType) {
+        final FetchMoviesTask.Listener listener = this;
+        new FetchMoviesTask(listener, listType).execute();
     }
 }
