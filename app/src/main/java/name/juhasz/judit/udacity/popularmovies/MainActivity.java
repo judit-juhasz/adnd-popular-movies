@@ -55,11 +55,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         switch (itemId) {
             case R.id.action_switch_most_popular:
-                showLoadProgressBar();
                 loadMovieList(FetchMoviesTask.MOVIE_LIST_POPULAR);
                 break;
             case R.id.action_switch_highest_rated:
-                showLoadProgressBar();
                 loadMovieList(FetchMoviesTask.MOVIE_LIST_TOP_RATED);
                 break;
             default:
@@ -93,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     public void loadMovieList(int listType) {
+        showLoadProgressBar();
         final FetchMoviesTask.Listener listener = this;
         new FetchMoviesTask(listener, listType).execute();
     }
