@@ -5,8 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.icu.text.SimpleDateFormat;
 
 import com.squareup.picasso.Picasso;
+
+import static name.juhasz.judit.udacity.popularmovies.DateUtils.formatReleaseDate;
 
 
 public class DetailsActivity extends AppCompatActivity {
@@ -36,8 +39,9 @@ public class DetailsActivity extends AppCompatActivity {
             final Movie movie = intent.getParcelableExtra(INTENT_DATA);
 
             mMovieTitleTextView.setText(movie.getTitle());
-            mMovieReleaseDateTextView.setText(movie.getReleaseDate().toString());
-            mMovieVoteAverageTextView.setText(movie.getVoteAverage());
+
+            mMovieReleaseDateTextView.setText("Release date: " + formatReleaseDate(movie.getReleaseDate()));
+            mMovieVoteAverageTextView.setText("Rating: " + movie.getVoteAverage());
             mMovieSynopsisTextView.setText(movie.getSynopsis());
 
             final String posterPath = movie.getPosterPath();
