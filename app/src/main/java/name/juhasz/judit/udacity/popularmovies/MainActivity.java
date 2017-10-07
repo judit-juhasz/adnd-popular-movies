@@ -1,6 +1,5 @@
 package name.juhasz.judit.udacity.popularmovies;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieOnClickListener, FetchMoviesTask.Listener {
 
@@ -44,17 +42,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Context context = MainActivity.this;
         final int itemId = item.getItemId();
 
         switch (itemId) {
             case R.id.action_switch_most_popular:
                 loadMovieList(FetchMoviesTask.MOVIE_LIST_POPULAR);
-                Toast.makeText(context, "Most popular selected", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_switch_highest_rated:
                 loadMovieList(FetchMoviesTask.MOVIE_LIST_TOP_RATED);
-                Toast.makeText(context, "Highest rated selected.", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 Log.w(LOG_TAG, "Menu selection is not handled. ItemId: " + itemId);
