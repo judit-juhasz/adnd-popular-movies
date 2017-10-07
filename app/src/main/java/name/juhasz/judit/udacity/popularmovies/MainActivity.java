@@ -8,6 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieOnClickListener, FetchMoviesTask.Listener {
 
@@ -15,13 +18,18 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     private RecyclerView mMoviesRecycleView;
     private MovieAdapter mAdapter;
+    private ProgressBar mLoadProgressBar;
+    private TextView mMessageTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mLoadProgressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+        mMessageTextView = (TextView) findViewById(R.id.tv_message_display);
         mMoviesRecycleView = (RecyclerView) findViewById(R.id.rv_movies);
+
         final MovieAdapter.MovieOnClickListener listener = this;
 
         mAdapter = new MovieAdapter(listener);
@@ -31,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);
         mMoviesRecycleView.setLayoutManager(layoutManager);
 
+        showLoadProgressBar();
         loadMovieList(FetchMoviesTask.MOVIE_LIST_POPULAR);
     }
 
@@ -46,9 +55,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         switch (itemId) {
             case R.id.action_switch_most_popular:
+                showLoadProgressBar();
                 loadMovieList(FetchMoviesTask.MOVIE_LIST_POPULAR);
                 break;
             case R.id.action_switch_highest_rated:
+                showLoadProgressBar();
                 loadMovieList(FetchMoviesTask.MOVIE_LIST_TOP_RATED);
                 break;
             default:
@@ -66,11 +77,44 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     @Override
     public void onFetchFinished(Movie[] movies) {
-        mAdapter.setMoviesData(movies);
+        final boolean moviesDisplayed = (0 != mAdapter.getItemCount());
+        final boolean newMovieListAvailable = (null != movies);
+
+        if (newMovieListAvailable) {
+            showMoviesList();
+            mAdapter.setMoviesData(movies);
+        } else {
+            if (moviesDisplayed) {
+                Log.w(LOG_TAG, "No new data available to refresh the movies list.");
+            } else {
+                showMessage(R.string.error_no_internet);
+            }
+        }
     }
 
     public void loadMovieList(int listType) {
         final FetchMoviesTask.Listener listener = this;
         new FetchMoviesTask(listener, listType).execute();
+    }
+
+    private void showLoadProgressBar() {
+        mMoviesRecycleView.setVisibility(View.INVISIBLE);
+        mMessageTextView.setVisibility(View.INVISIBLE);
+        mLoadProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void showMoviesList() {
+        mMessageTextView.setVisibility(View.INVISIBLE);
+        mLoadProgressBar.setVisibility(View.INVISIBLE);
+        mMoviesRecycleView.setVisibility(View.VISIBLE);
+    }
+
+    private void showMessage(int messageStringResourceId) {
+        mLoadProgressBar.setVisibility(View.INVISIBLE);
+        mMoviesRecycleView.setVisibility(View.INVISIBLE);
+
+        String message = getString(messageStringResourceId);
+        mMessageTextView.setText(message);
+        mMessageTextView.setVisibility(View.VISIBLE);
     }
 }

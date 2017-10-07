@@ -2,4 +2,5 @@
     <string name="app_name">Popular Movies</string>
     <string name="action_switch_most_popular">Most popular</string>
     <string name="action_switch_highest_rated">Highest rated</string>
+    <string name="error_no_internet">No internet connection.</string>
 </resources>
