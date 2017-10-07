@@ -18,6 +18,9 @@ public class Movie implements Parcelable {
     @SerializedName("title")
     private String mTitle;
 
+    @SerializedName("original_title")
+    private String mOriginalTitle;
+
     @SerializedName("poster_path")
     private String mPosterPath;
 
@@ -30,28 +33,36 @@ public class Movie implements Parcelable {
     @SerializedName("release_date")
     private Date mReleaseDate;
 
-    public Movie(String title, String posterPath, String synopsis) {
-        mTitle = title;
-        mPosterPath = posterPath;
-        mSynopsis = synopsis;
-    }
+    public Movie() { }
 
     public String getTitle() {
         return mTitle;
     }
 
-    public String getPosterPath() { return IMAGE_BASE_URL + mPosterPath; }
+    public String getOriginalTitle() {
+        return mOriginalTitle;
+    }
 
-    public String getSynopsis() { return mSynopsis; }
+    public String getPosterPath() {
+        return IMAGE_BASE_URL + mPosterPath;
+    }
 
-    public String getVoteAverage() { return mVoteAverage; }
+    public String getSynopsis() {
+        return mSynopsis;
+    }
 
-    public Date getReleaseDate() { return mReleaseDate; }
+    public String getVoteAverage() {
+        return mVoteAverage;
+    }
 
+    public Date getReleaseDate() {
+        return mReleaseDate;
+    }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mTitle);
+        dest.writeString(mOriginalTitle);
         dest.writeString(mPosterPath);
         dest.writeString(mSynopsis);
         dest.writeString(mVoteAverage);
@@ -60,6 +71,7 @@ public class Movie implements Parcelable {
 
     public Movie(Parcel in) {
         mTitle = in.readString();
+        mOriginalTitle = in.readString();
         mPosterPath = in.readString();
         mSynopsis = in.readString();
         mVoteAverage = in.readString();

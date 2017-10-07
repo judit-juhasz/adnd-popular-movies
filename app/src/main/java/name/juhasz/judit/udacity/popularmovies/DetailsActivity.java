@@ -17,6 +17,7 @@ public class DetailsActivity extends AppCompatActivity {
     public static final String INTENT_DATA = Movie.class.getName();
 
     private TextView mMovieTitleTextView;
+    private TextView mMovieOriginalTitleTextView;
     private TextView mMovieReleaseDateTextView;
     private TextView mMovieVoteAverageTextView;
     private TextView mMovieSynopsisTextView;
@@ -28,6 +29,7 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         mMovieTitleTextView = (TextView) findViewById(R.id.tv_movie_title);
+        mMovieOriginalTitleTextView = (TextView) findViewById(R.id.tv_movie_original_title);
         mMovieReleaseDateTextView = (TextView) findViewById(R.id.tv_movie_release_date);
         mMovieVoteAverageTextView = (TextView) findViewById(R.id.tv_movie_vote_average);
         mMovieSynopsisTextView = (TextView) findViewById(R.id.tv_movie_synopsis);
@@ -39,6 +41,7 @@ public class DetailsActivity extends AppCompatActivity {
             final Movie movie = intent.getParcelableExtra(INTENT_DATA);
 
             mMovieTitleTextView.setText(movie.getTitle());
+            mMovieOriginalTitleTextView.setText("(" + movie.getOriginalTitle() + ")");
 
             mMovieReleaseDateTextView.setText("Release date: " + formatReleaseDate(movie.getReleaseDate()));
             mMovieVoteAverageTextView.setText("Rating: " + movie.getVoteAverage());

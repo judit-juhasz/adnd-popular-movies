@@ -12,14 +12,21 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:textAppearanceLarge"
         android:textStyle="bold"
-        android:textColor="@color/textColorPrimary"
-        android:layout_marginBottom="16dp"/>
+        android:textColor="@color/textColorPrimary" />
+
+    <TextView
+        android:id="@+id/tv_movie_original_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_below="@id/tv_movie_title"
+        android:layout_marginBottom="@dimen/margin_normal"/>
 
     <ImageView
         android:id="@+id/iv_movie_poster"
         android:layout_width="@dimen/details_activity_poster_width"
         android:layout_height="@dimen/details_activity_poster_height"
-        android:layout_below="@id/tv_movie_title"
+        android:layout_below="@id/tv_movie_original_title"
         android:layout_alignParentLeft="true"/>
 
     <TextView
@@ -28,7 +35,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:textAppearanceSmall"
         android:layout_toRightOf="@id/iv_movie_poster"
-        android:layout_below="@id/tv_movie_title"
+        android:layout_below="@id/tv_movie_original_title"
         android:layout_marginBottom="@dimen/margin_small"/>
 
     <TextView
