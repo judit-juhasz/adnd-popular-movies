@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     public void onItemClick(Movie movie) {
         Intent intentToStartDetailsActivity = new Intent(this, DetailsActivity.class);
-        intentToStartDetailsActivity.putExtra(Intent.EXTRA_TEXT, movie.getTitle());
+        intentToStartDetailsActivity.putExtra(DetailsActivity.INTENT_DATA, movie);
         startActivity(intentToStartDetailsActivity);
     }
 
