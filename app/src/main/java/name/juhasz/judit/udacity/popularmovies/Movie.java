@@ -1,5 +1,7 @@
 package name.juhasz.judit.udacity.popularmovies;
 
+import java.util.Date;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -16,9 +18,19 @@ public class Movie {
     @SerializedName("poster_path")
     private String mPosterPath;
 
-    public Movie(String title, String posterPath) {
+    @SerializedName("overview")
+    private String mSynopsis;
+
+    @SerializedName("vote_average")
+    private String mVoteAverage;
+
+    @SerializedName("release_date")
+    private Date mReleaseDate;
+
+    public Movie(String title, String posterPath, String synopsis) {
         mTitle = title;
         mPosterPath = posterPath;
+        mSynopsis = synopsis;
     }
 
     public String getTitle() {
@@ -26,4 +38,10 @@ public class Movie {
     }
 
     public String getPosterPath() { return IMAGE_BASE_URL + mPosterPath; }
+
+    public String getSynopsis() { return mSynopsis; }
+
+    public String getVoteAverage() { return mVoteAverage; }
+
+    public Date getReleaseDate() { return mReleaseDate; }
 }
