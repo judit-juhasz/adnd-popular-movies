@@ -2,6 +2,12 @@
 
 The Popular Movies App for Udacity's Android Developer Nanodegree by Google **For education purposes only!**
 
+## Demo
+
+### Pictures
+
+![Demo screeens](https://farm5.staticflickr.com/4467/37538309592_b3011cd2b0_o.png)
+
 ## Application secrets
 
 In order to use The Movie DB service you need to register your own API
