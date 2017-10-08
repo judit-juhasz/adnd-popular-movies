@@ -11,11 +11,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
-/**
- * Created by Judit on 10/4/2017.
- */
-
 public class FetchMoviesTask extends AsyncTask <Void, Void, Movie[]> {
 
 
@@ -43,16 +38,13 @@ public class FetchMoviesTask extends AsyncTask <Void, Void, Movie[]> {
 
         mListener = listener;
 
-        if (listType == MOVIE_LIST_POPULAR) {
-            mListType = listType;
-        } else if (listType == MOVIE_LIST_TOP_RATED) {
-            mListType = listType;
-        } else {
-            final String errorMessage = "Unknown list type for FetchMoviesTask. List type: "
-                    + listType;
+        if (MOVIE_LIST_POPULAR != listType && MOVIE_LIST_TOP_RATED != listType) {
+            final String errorMessage = "Unknown list type for FetchMoviesTask.";
             Log.e(LOG_TAG, errorMessage);
             throw new IllegalArgumentException(errorMessage);
         }
+
+        mListType = listType;
 
         final Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(THE_MOVIE_DB_BASE_URL)
@@ -89,11 +81,7 @@ public class FetchMoviesTask extends AsyncTask <Void, Void, Movie[]> {
 
     @Override
     protected void onPostExecute(Movie[] movies) {
-        if (null == mListener) {
-            Log.w(LOG_TAG, "Nobody is listening for FetchMoviesTask.");
-        } else {
-            mListener.onFetchFinished(movies);
-        }
+        mListener.onFetchFinished(movies);
     }
 
     private Call<MovieListResponse> getMovieListCall(int listType) {

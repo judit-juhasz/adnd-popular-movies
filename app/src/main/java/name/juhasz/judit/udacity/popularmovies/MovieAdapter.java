@@ -8,12 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-
 import com.squareup.picasso.Picasso;
-
-/**
- * Created by Judit on 10/2/2017.
- */
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
@@ -37,12 +32,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         Context context = parent.getContext();
 
-        int layoutIdForListItem = R.layout.item_movie;
-        LayoutInflater inflater = LayoutInflater.from(context);
-        boolean shouldAttachToParentImmediately = false;
+        final int layoutIdForListItem = R.layout.item_movie;
+        final LayoutInflater inflater = LayoutInflater.from(context);
+        final boolean shouldAttachToParentImmediately = false;
 
-        View view = inflater.inflate(layoutIdForListItem, parent, shouldAttachToParentImmediately);
-        MovieViewHolder viewHolder = new MovieViewHolder(context, view);
+        final View view =
+                inflater.inflate(layoutIdForListItem, parent, shouldAttachToParentImmediately);
+        final MovieViewHolder viewHolder = new MovieViewHolder(context, view);
 
         return viewHolder;
     }
@@ -94,7 +90,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             } else {
                 Log.wtf(LOG_TAG, "OnClick handler call with empty movie list.");
             }
-
         }
     }
 }

@@ -1,6 +1,10 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Popular Movies</string>
     <string name="action_switch_most_popular">Most popular</string>
     <string name="action_switch_highest_rated">Highest rated</string>
-    <string name="error_no_internet">No internet connection.</string>
+    <string name="error_no_internet">Cannot show movies offline.\nConnect to the Internet and try
+        again.</string>
+    <string name="average_vote_format">Rating: <xliff:g example="3.4" id="average_vote">%s</xliff:g></string>
+    <string name="original_title_format">(<xliff:g example="Original title" id="title">%s</xliff:g>)</string>
+    <string name="release_date_format">Release date: <xliff:g example="01. 21. 2017" id="release_date">%s</xliff:g></string>
 </resources>

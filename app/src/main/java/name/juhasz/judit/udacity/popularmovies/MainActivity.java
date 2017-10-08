@@ -12,11 +12,12 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieOnClickListener, FetchMoviesTask.Listener {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieOnClickListener,
+        FetchMoviesTask.Listener {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
-    private RecyclerView mMoviesRecycleView;
+    private RecyclerView mMoviesRecyclerView;
     private MovieAdapter mAdapter;
     private ProgressBar mLoadProgressBar;
     private TextView mMessageTextView;
@@ -28,16 +29,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         mLoadProgressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         mMessageTextView = (TextView) findViewById(R.id.tv_message_display);
-        mMoviesRecycleView = (RecyclerView) findViewById(R.id.rv_movies);
+        mMoviesRecyclerView = (RecyclerView) findViewById(R.id.rv_movies);
 
         final MovieAdapter.MovieOnClickListener listener = this;
 
         mAdapter = new MovieAdapter(listener);
-        mMoviesRecycleView.setAdapter(mAdapter);
+        mMoviesRecyclerView.setAdapter(mAdapter);
 
         final int spanCount = 2;
         GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);
-        mMoviesRecycleView.setLayoutManager(layoutManager);
+        mMoviesRecyclerView.setLayoutManager(layoutManager);
 
         showLoadProgressBar();
         loadMovieList(FetchMoviesTask.MOVIE_LIST_POPULAR);
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     private void showLoadProgressBar() {
-        mMoviesRecycleView.setVisibility(View.INVISIBLE);
+        mMoviesRecyclerView.setVisibility(View.INVISIBLE);
         mMessageTextView.setVisibility(View.INVISIBLE);
         mLoadProgressBar.setVisibility(View.VISIBLE);
     }
@@ -105,12 +106,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private void showMoviesList() {
         mMessageTextView.setVisibility(View.INVISIBLE);
         mLoadProgressBar.setVisibility(View.INVISIBLE);
-        mMoviesRecycleView.setVisibility(View.VISIBLE);
+        mMoviesRecyclerView.setVisibility(View.VISIBLE);
     }
 
     private void showMessage(int messageStringResourceId) {
         mLoadProgressBar.setVisibility(View.INVISIBLE);
-        mMoviesRecycleView.setVisibility(View.INVISIBLE);
+        mMoviesRecyclerView.setVisibility(View.INVISIBLE);
 
         String message = getString(messageStringResourceId);
         mMessageTextView.setText(message);

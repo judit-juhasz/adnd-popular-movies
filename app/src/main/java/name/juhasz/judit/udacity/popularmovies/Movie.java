@@ -7,10 +7,6 @@ import java.util.Date;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Judit on 10/2/2017.
- */
-
 public class Movie implements Parcelable {
 
     private static final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w185/";
