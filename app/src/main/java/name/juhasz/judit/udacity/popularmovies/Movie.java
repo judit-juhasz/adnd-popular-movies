@@ -11,6 +11,9 @@ public class Movie implements Parcelable {
 
     private static final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w185/";
 
+    @SerializedName("id")
+    private String mId;
+
     @SerializedName("title")
     private String mTitle;
 
@@ -31,32 +34,51 @@ public class Movie implements Parcelable {
 
     public Movie() { }
 
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String id) {this.mId = id;}
+
     public String getTitle() {
         return mTitle;
     }
+
+    public void setTitle(String title) { this.mTitle = title; }
 
     public String getOriginalTitle() {
         return mOriginalTitle;
     }
 
+    public void setOriginalTitle(String originalTitle) { this.mOriginalTitle = originalTitle;}
+
     public String getPosterPath() {
         return IMAGE_BASE_URL + mPosterPath;
     }
+
+    public void setPosterPath(String posterPath) { this.mPosterPath = posterPath; }
 
     public String getSynopsis() {
         return mSynopsis;
     }
 
+    public void setSynopsis(String synopsis) { this.mSynopsis = synopsis; }
+
     public String getVoteAverage() {
         return mVoteAverage;
     }
+
+    public void setVoteAverage(String voteAverage) { this.mVoteAverage = voteAverage; }
 
     public Date getReleaseDate() {
         return mReleaseDate;
     }
 
+    public Date setReleaseDate(Date releaseDate) { return this.mReleaseDate = releaseDate; }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mId);
         dest.writeString(mTitle);
         dest.writeString(mOriginalTitle);
         dest.writeString(mPosterPath);
@@ -66,6 +88,7 @@ public class Movie implements Parcelable {
     }
 
     public Movie(Parcel in) {
+        mId = in.readString();
         mTitle = in.readString();
         mOriginalTitle = in.readString();
         mPosterPath = in.readString();
