@@ -1,5 +1,6 @@
 package name.juhasz.judit.udacity.popularmovies;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -13,9 +14,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FetchMoviesTask extends AsyncTask <Void, Void, Movie[]> {
 
-
     private static final String LOG_TAG = FetchMoviesTask.class.getSimpleName();
     private static final String THE_MOVIE_DB_BASE_URL = "http://api.themoviedb.org/3/";
+
+    private static final String POSTER_PATH_BASE_URL = "http://image.tmdb.org/t/p/w185/";
 
     public static final int MOVIE_LIST_POPULAR = 1;
     public static final int MOVIE_LIST_TOP_RATED = 2;
@@ -68,6 +70,17 @@ public class FetchMoviesTask extends AsyncTask <Void, Void, Movie[]> {
             final Response<MovieListResponse> response = moviesCall.execute();
             if (response.isSuccessful()) {
                 final List<Movie> movies = response.body().getMovies();
+
+                for (Movie movie : movies) {
+                    final String relativePosterPath = movie.getPosterPath();
+
+                    final Uri posterUri = Uri.parse(POSTER_PATH_BASE_URL).buildUpon()
+                            .appendEncodedPath(relativePosterPath)
+                            .build();
+
+                    final String absolutePosterPath = posterUri.toString();
+                    movie.setPosterPath(absolutePosterPath);
+                }
 
                 return movies.toArray(new Movie[0]);
             }

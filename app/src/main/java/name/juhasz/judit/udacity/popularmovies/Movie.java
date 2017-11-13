@@ -9,8 +9,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class Movie implements Parcelable {
 
-    private static final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w185/";
-
     @SerializedName("id")
     private String mId;
 
@@ -53,7 +51,7 @@ public class Movie implements Parcelable {
     public void setOriginalTitle(String originalTitle) { this.mOriginalTitle = originalTitle;}
 
     public String getPosterPath() {
-        return IMAGE_BASE_URL + mPosterPath;
+        return mPosterPath;
     }
 
     public void setPosterPath(String posterPath) { this.mPosterPath = posterPath; }
