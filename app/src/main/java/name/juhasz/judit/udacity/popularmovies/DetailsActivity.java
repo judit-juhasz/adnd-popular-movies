@@ -3,6 +3,7 @@ package name.juhasz.judit.udacity.popularmovies;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,5 +44,8 @@ public class DetailsActivity extends AppCompatActivity {
             final String posterPath = movie.getPosterPath();
             Picasso.with(this).load(posterPath).into(moviePosterImageView);
         }
+    }
+
+    public void onClickFavoritesButton(View view) {
     }
 }

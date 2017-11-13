@@ -1,8 +1,12 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Popular Movies</string>
+
     <string name="action_switch_most_popular">Most popular</string>
     <string name="action_switch_highest_rated">Highest rated</string>
     <string name="action_switch_favorites">Favorites</string>
+
+    <string name="button_add_movie_to_favorites">Add to favorites</string>
+    <string name="button_remove_movie_from_favorites">Remove from favorites</string>
 
     <string name="error_no_internet">Cannot show movies offline.\nConnect to the Internet and try
         again.</string>

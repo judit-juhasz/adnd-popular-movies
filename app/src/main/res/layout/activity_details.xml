@@ -59,6 +59,16 @@
             android:layout_below="@id/iv_movie_poster"
             android:layout_marginTop="@dimen/margin_normal"/>
 
+        <Button
+            android:id="@+id/b_favorite_movie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Favorite"
+            android:onClick="onClickFavoritesButton"
+            android:layout_below="@id/tv_movie_synopsis"
+            android:layout_marginTop="@dimen/margin_normal"/>
+
     </RelativeLayout>
+
 
 </ScrollView>
