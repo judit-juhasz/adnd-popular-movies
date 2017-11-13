@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieOnClickListener,
         FetchMoviesTask.Listener {
@@ -60,6 +61,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 break;
             case R.id.action_switch_highest_rated:
                 loadMovieList(FetchMoviesTask.MOVIE_LIST_TOP_RATED);
+                break;
+            case R.id.action_switch_favorites:
+                Toast.makeText(this, "Favorites selected.", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 Log.w(LOG_TAG, "Menu selection is not handled. ItemId: " + itemId);

@@ -2,6 +2,8 @@
     <string name="app_name">Popular Movies</string>
     <string name="action_switch_most_popular">Most popular</string>
     <string name="action_switch_highest_rated">Highest rated</string>
+    <string name="action_switch_favorites">Favorites</string>
+
     <string name="error_no_internet">Cannot show movies offline.\nConnect to the Internet and try
         again.</string>
     <string name="average_vote_format">Rating: <xliff:g example="3.4" id="average_vote">%s</xliff:g></string>
