@@ -16,15 +16,16 @@ public class MoviesDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        final String SQL_CREATE_MOVIE_TABLE = "CREATE TABLE" + MoviesContract.MovieEntry.TABLE_NAME
-                + " (" +
-                MoviesContract.MovieEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                MoviesContract.MovieEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
-                MoviesContract.MovieEntry.COLUMN_ORIGINAL_TITLE + " TEXT NOT NULL, " +
-                MoviesContract.MovieEntry.COLUMN_POSTER_PATH + " TEXT NOT NULL, " +
-                MoviesContract.MovieEntry.COLUMN_SYNOPSIS + " TEXT NOT NULL, " +
-                MoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE + " TEXT NOT NULL, " +
-                MoviesContract.MovieEntry.COLUMN_RELEASE_DATE + " INTEGER NOT NULL, " + ");";
+        final String SQL_CREATE_MOVIE_TABLE =
+                "CREATE TABLE " + MoviesContract.MovieEntry.TABLE_NAME + " (" +
+                        MoviesContract.MovieEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        MoviesContract.MovieEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
+                        MoviesContract.MovieEntry.COLUMN_ORIGINAL_TITLE + " TEXT NOT NULL, " +
+                        MoviesContract.MovieEntry.COLUMN_SYNOPSIS + " TEXT NOT NULL, " +
+                        MoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE + " TEXT NOT NULL, " +
+                        MoviesContract.MovieEntry.COLUMN_RELEASE_DATE + " INTEGER NOT NULL, " +
+                        MoviesContract.MovieEntry.COLUMN_POSTER_PATH + " TEXT NOT NULL " +
+                        ");";
 
         db.execSQL(SQL_CREATE_MOVIE_TABLE);
     }
