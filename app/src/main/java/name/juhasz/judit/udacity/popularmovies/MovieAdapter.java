@@ -1,6 +1,7 @@
 package name.juhasz.judit.udacity.popularmovies;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,7 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.util.Date;
+
 import com.squareup.picasso.Picasso;
+
+import name.juhasz.judit.udacity.popularmovies.data.MoviesContract;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
@@ -43,9 +48,50 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         return viewHolder;
     }
 
+    public Movie[] getMovies() {
+        return mMovies;
+    }
+
     public void setMoviesData(Movie[] movies) {
         this.mMovies = movies;
         notifyDataSetChanged();
+    }
+
+    public void setMoviesData(final Cursor cursor) {
+        Movie[] movies = null;
+
+        if (null != cursor) {
+            movies = new Movie[cursor.getCount()];
+            int currentMovieIndex = 0;
+            while (cursor.moveToNext()) {
+                final Movie movie = getMovieFromCursor(cursor);
+                movies[currentMovieIndex++] = movie;
+            }
+        }
+
+        setMoviesData(movies);
+    }
+
+    private Movie getMovieFromCursor(final Cursor cursor) {
+        if (null != cursor && cursor.getCount() != 0) {
+            final Movie movie = new Movie();
+
+            movie.setId(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_ID)));
+            movie.setTitle(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_TITLE)));
+            movie.setOriginalTitle(cursor.getString(cursor.getColumnIndex(
+                    MoviesContract.MovieEntry.COLUMN_ORIGINAL_TITLE)));
+            movie.setSynopsis(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_SYNOPSIS)));
+            movie.setVoteAverage(cursor.getString(cursor.getColumnIndex(
+                    MoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE)));
+            movie.setPosterPath(cursor.getString(cursor.getColumnIndex(
+                    MoviesContract.MovieEntry.COLUMN_POSTER_PATH)));
+            movie.setReleaseDate(new Date(cursor.getInt(cursor.getColumnIndex(
+                    MoviesContract.MovieEntry.COLUMN_RELEASE_DATE))));
+
+            return movie;
+        } else {
+            return null;
+        }
     }
 
     @Override

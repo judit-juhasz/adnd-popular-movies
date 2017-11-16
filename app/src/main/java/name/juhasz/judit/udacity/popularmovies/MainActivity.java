@@ -1,6 +1,11 @@
 package name.juhasz.judit.udacity.popularmovies;
 
+import android.app.LoaderManager;
+import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,17 +16,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import java.util.Date;
+
+import name.juhasz.judit.udacity.popularmovies.data.MoviesContract;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieOnClickListener,
-        FetchMoviesTask.Listener {
+        FetchMoviesTask.Listener, LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    private static final int ID_LOADER_FAVORITE_MOVIES = 1;
 
     private RecyclerView mMoviesRecyclerView;
     private MovieAdapter mAdapter;
     private ProgressBar mLoadProgressBar;
     private TextView mMessageTextView;
+
+    private int mSelectedMovieList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +69,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         switch (itemId) {
             case R.id.action_switch_most_popular:
+                mSelectedMovieList = itemId;
                 loadMovieList(FetchMoviesTask.MOVIE_LIST_POPULAR);
                 break;
             case R.id.action_switch_highest_rated:
+                mSelectedMovieList = itemId;
                 loadMovieList(FetchMoviesTask.MOVIE_LIST_TOP_RATED);
                 break;
             case R.id.action_switch_favorites:
-                Toast.makeText(this, "Favorites selected.", Toast.LENGTH_SHORT).show();
+                mSelectedMovieList = itemId;
+                loadFavoriteMovieList();
                 break;
             default:
                 Log.w(LOG_TAG, "Menu selection is not handled. ItemId: " + itemId);
@@ -101,6 +116,34 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         new FetchMoviesTask(listener, listType).execute();
     }
 
+    public void loadFavoriteMovieList() {
+        showLoadProgressBar();
+        final Cursor cursor = getContentResolver().query(MoviesContract.MovieEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null);
+        if (null != cursor && cursor.getCount() != 0) {
+            final Movie[] movies = new Movie[cursor.getCount()];
+            int currentMovieIndex = 0;
+            while (cursor.moveToNext()) {
+                final Movie movie = new Movie();
+
+                movie.setId(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_ID)));
+                movie.setTitle(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_TITLE)));
+                movie.setOriginalTitle(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_ORIGINAL_TITLE)));
+                movie.setPosterPath(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_POSTER_PATH)));
+                movie.setSynopsis(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_SYNOPSIS)));
+                movie.setVoteAverage(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE)));
+                movie.setReleaseDate(new Date(cursor.getInt(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_RELEASE_DATE))));
+
+                movies[currentMovieIndex++] = movie;
+            }
+            mAdapter.setMoviesData(movies);
+        }
+        showMoviesList();
+    }
+
     private void showLoadProgressBar() {
         mMoviesRecyclerView.setVisibility(View.INVISIBLE);
         mMessageTextView.setVisibility(View.INVISIBLE);
@@ -120,5 +163,41 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         String message = getString(messageStringResourceId);
         mMessageTextView.setText(message);
         mMessageTextView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Context context = MainActivity.this;
+        switch (id) {
+            case ID_LOADER_FAVORITE_MOVIES:
+                try {
+                    return new CursorLoader(context,
+                            MoviesContract.MovieEntry.CONTENT_URI,
+                            null,
+                            null,
+                            null,
+                            null);
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "Failed to asynchronously load data.");
+                    e.printStackTrace();
+                    return null;
+                }
+            default:
+                throw new RuntimeException("Loader not implemented: " + id);
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (R.id.action_switch_favorites == mSelectedMovieList) {
+            mAdapter.setMoviesData(data);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        if (R.id.action_switch_favorites == mSelectedMovieList) {
+            mAdapter.setMoviesData((Cursor) null);
+        }
     }
 }
