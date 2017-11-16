@@ -140,12 +140,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 movies[currentMovieIndex++] = movie;
             }
             mAdapter.setMoviesData(movies);
+            showMoviesList();
         } else {
             showMessage(R.string.error_no_movie);
         }
-
-
     }
+
 
     private void showLoadProgressBar() {
         mMoviesRecyclerView.setVisibility(View.INVISIBLE);
