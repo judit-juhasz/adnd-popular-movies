@@ -140,13 +140,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 movies[currentMovieIndex++] = movie;
             }
             mAdapter.setMoviesData(movies);
-        }
-
-        if (null != cursor && cursor.getCount() != 0) {
-            showMoviesList();
         } else {
             showMessage(R.string.error_no_movie);
         }
+
+
     }
 
     private void showLoadProgressBar() {
