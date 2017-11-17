@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         showLoadProgressBar();
         loadMovieList(FetchMoviesTask.MOVIE_LIST_POPULAR);
+        getLoaderManager().initLoader(ID_LOADER_FAVORITE_MOVIES, null, this);
     }
 
     @Override
@@ -118,34 +119,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     public void loadFavoriteMovieList() {
         showLoadProgressBar();
-        final Cursor cursor = getContentResolver().query(MoviesContract.MovieEntry.CONTENT_URI,
-                null,
-                null,
-                null,
-                null);
-        if (null != cursor && cursor.getCount() != 0) {
-            final Movie[] movies = new Movie[cursor.getCount()];
-            int currentMovieIndex = 0;
-            while (cursor.moveToNext()) {
-                final Movie movie = new Movie();
-
-                movie.setId(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_ID)));
-                movie.setTitle(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_TITLE)));
-                movie.setOriginalTitle(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_ORIGINAL_TITLE)));
-                movie.setPosterPath(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_POSTER_PATH)));
-                movie.setSynopsis(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_SYNOPSIS)));
-                movie.setVoteAverage(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE)));
-                movie.setReleaseDate(new Date(cursor.getInt(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_RELEASE_DATE))));
-
-                movies[currentMovieIndex++] = movie;
-            }
-            mAdapter.setMoviesData(movies);
-            showMoviesList();
-        } else {
-            showMessage(R.string.error_no_movie);
-        }
+        getLoaderManager().restartLoader(ID_LOADER_FAVORITE_MOVIES, null, this);
     }
-
 
     private void showLoadProgressBar() {
         mMoviesRecyclerView.setVisibility(View.INVISIBLE);
