@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,13 +13,24 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import name.juhasz.judit.udacity.popularmovies.data.MoviesContract;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static name.juhasz.judit.udacity.popularmovies.DateUtils.formatReleaseDate;
 
 public class DetailsActivity extends AppCompatActivity {
 
     public static final String INTENT_DATA = Movie.class.getName();
+
+    private RecyclerView mReviewsRecyclerView;
+    private TextView mReviewLabelTextView;
+    private ReviewAdapter mReviewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +44,8 @@ public class DetailsActivity extends AppCompatActivity {
         final TextView movieSynopsisTextView = (TextView) findViewById(R.id.tv_movie_synopsis);
         final ImageView moviePosterImageView = (ImageView) findViewById(R.id.iv_movie_poster);
         final Button favoriteMovieButton = (Button) findViewById(R.id.b_favorite_movie);
+        mReviewLabelTextView = (TextView) findViewById(R.id.tv_review_label);
+        mReviewsRecyclerView = (RecyclerView) findViewById(R.id.rv_movies_reviews);
 
         final Intent intent = getIntent();
 
@@ -63,6 +77,10 @@ public class DetailsActivity extends AppCompatActivity {
             } else {
                 favoriteMovieButton.setText(getString(R.string.button_add_movie_to_favorites));
             }
+
+            mReviewAdapter = new ReviewAdapter();
+            mReviewsRecyclerView.setAdapter(mReviewAdapter);
+            loadReview(movieId);
         }
     }
 
@@ -91,5 +109,36 @@ public class DetailsActivity extends AppCompatActivity {
 
             favoritesButton.setText(getString(R.string.button_add_movie_to_favorites));
         }
+    }
+
+    private void loadReview(final String movieId) {
+
+        final String apiKey = BuildConfig.THE_MOVIE_DB_API_KEY;
+
+        final Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(TheMovieDbService.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        final Class<TheMovieDbService> theMovieDbServiceDefinition = TheMovieDbService.class;
+        final TheMovieDbService theMovieDbService = retrofit.create(theMovieDbServiceDefinition);
+        final Call<ReviewListResponse> call = theMovieDbService.getReviewsForMovie(movieId, apiKey);
+        call.enqueue(new Callback<ReviewListResponse>() {
+                         @Override
+                         public void onResponse(final Call<ReviewListResponse> call,
+                                                final Response<ReviewListResponse> response) {
+                             if (response.isSuccessful()) {
+                                 final List<Review> reviews = response.body().getReviews();
+                                 mReviewAdapter.setReviews(reviews.toArray(new Review[0]));
+                             }
+                         }
+
+                         @Override
+                         public void onFailure(final Call<ReviewListResponse> call,
+                                               final Throwable t) {
+                             mReviewLabelTextView.setVisibility(View.GONE);
+                             mReviewsRecyclerView.setVisibility(View.GONE);
+                         }
+                     }
+        );
     }
 }

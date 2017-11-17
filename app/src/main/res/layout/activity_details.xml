@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="name.juhasz.judit.udacity.popularmovies.DetailsActivity"
     android:layout_margin="@dimen/margin_normal">
 
@@ -67,6 +68,20 @@
             android:onClick="onClickFavoritesButton"
             android:layout_below="@id/tv_movie_synopsis"
             android:layout_marginTop="@dimen/margin_normal"/>
+
+        <TextView
+            android:id="@+id/tv_review_label"
+            android:text="Reviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/b_favorite_movie" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_movies_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="LinearLayoutManager"
+            android:layout_below="@id/tv_review_label" />
 
     </RelativeLayout>
 
