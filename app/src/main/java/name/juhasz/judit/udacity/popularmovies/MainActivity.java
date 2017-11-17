@@ -194,6 +194,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (R.id.action_switch_favorites == mSelectedMovieList) {
             mAdapter.setMoviesData(data);
+            if (mAdapter.getItemCount() != 0) {
+                showMoviesList();
+            } else {
+                showMessage(R.string.error_no_movie);
+            }
         }
     }
 
@@ -201,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public void onLoaderReset(Loader<Cursor> loader) {
         if (R.id.action_switch_favorites == mSelectedMovieList) {
             mAdapter.setMoviesData((Cursor) null);
+            showMessage(R.string.error_no_internet);
         }
     }
 }
