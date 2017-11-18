@@ -71,9 +71,10 @@
 
         <TextView
             android:id="@+id/tv_review_label"
-            android:text="Reviews"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Reviews"
+            android:textStyle="bold"
             android:layout_below="@id/b_favorite_movie" />
 
         <android.support.v7.widget.RecyclerView
@@ -83,7 +84,23 @@
             app:layoutManager="LinearLayoutManager"
             android:layout_below="@id/tv_review_label" />
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_trailers_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trailers"
+            android:paddingTop="30dp"
+            android:textStyle="bold"
+            android:layout_below="@id/rv_movies_reviews" />
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_trailers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="LinearLayoutManager"
+            android:orientation="horizontal"
+            android:layout_below="@id/tv_trailers_label" />
+
+    </RelativeLayout>
 
 </ScrollView>

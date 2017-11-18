@@ -32,6 +32,10 @@ public class DetailsActivity extends AppCompatActivity {
     private TextView mReviewLabelTextView;
     private ReviewAdapter mReviewAdapter;
 
+    private RecyclerView mTrailersRecyclerView;
+    private TextView mTrailerLabelTextView;
+    private TrailerAdapter mTrailerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +50,7 @@ public class DetailsActivity extends AppCompatActivity {
         final Button favoriteMovieButton = (Button) findViewById(R.id.b_favorite_movie);
         mReviewLabelTextView = (TextView) findViewById(R.id.tv_review_label);
         mReviewsRecyclerView = (RecyclerView) findViewById(R.id.rv_movies_reviews);
+        mTrailersRecyclerView = (RecyclerView) findViewById(R.id.rv_trailers);
 
         final Intent intent = getIntent();
 
@@ -81,6 +86,10 @@ public class DetailsActivity extends AppCompatActivity {
             mReviewAdapter = new ReviewAdapter();
             mReviewsRecyclerView.setAdapter(mReviewAdapter);
             loadReview(movieId);
+
+            mTrailerAdapter = new TrailerAdapter();
+            mTrailersRecyclerView.setAdapter(mTrailerAdapter);
+            loadTrailers(movie.getId());
         }
     }
 
@@ -137,6 +146,37 @@ public class DetailsActivity extends AppCompatActivity {
                                                final Throwable t) {
                              mReviewLabelTextView.setVisibility(View.GONE);
                              mReviewsRecyclerView.setVisibility(View.GONE);
+                         }
+                     }
+        );
+    }
+
+    private void loadTrailers(final String movieId) {
+
+        final String apiKey = BuildConfig.THE_MOVIE_DB_API_KEY;
+
+        final Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(TheMovieDbService.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        final Class<TheMovieDbService> theMovieDbServiceDefinition = TheMovieDbService.class;
+        final TheMovieDbService theMovieDbService = retrofit.create(theMovieDbServiceDefinition);
+
+        final Call<TrailerListResponse> call = theMovieDbService.getTrailersForMovie(movieId, apiKey);
+        call.enqueue(new Callback<TrailerListResponse>() {
+                         @Override
+                         public void onResponse(final Call<TrailerListResponse> call,
+                                                final Response<TrailerListResponse> response) {
+                             if (response.isSuccessful()) {
+                                 final List<Trailer> trailers = response.body().getTrailers();
+                                 mTrailerAdapter.setTrailers(trailers.toArray(new Trailer[0]));
+                             }
+                         }
+
+                         @Override
+                         public void onFailure(final Call<TrailerListResponse> call,
+                                               final Throwable t) {
+
                          }
                      }
         );

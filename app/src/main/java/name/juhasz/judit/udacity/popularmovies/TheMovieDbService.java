@@ -19,4 +19,7 @@ interface TheMovieDbService {
     @GET("movie/{id}/reviews")
     Call<ReviewListResponse> getReviewsForMovie(@Path("id") String id, @Query("api_key") String apiKey);
 
+    @GET("movie/{id}/trailers")
+    Call<TrailerListResponse>  getTrailersForMovie(@Path("id") String id, @Query("api_key") String apiKey);
+
 }
