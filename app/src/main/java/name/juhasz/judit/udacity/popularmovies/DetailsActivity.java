@@ -3,13 +3,16 @@ package name.juhasz.judit.udacity.popularmovies;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -24,7 +27,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static name.juhasz.judit.udacity.popularmovies.DateUtils.formatReleaseDate;
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity implements TrailerAdapter.OnClickListener {
+
+    private final static String LOG_TAG = DetailsActivity.class.getSimpleName();
 
     public static final String INTENT_DATA = Movie.class.getName();
 
@@ -33,7 +38,6 @@ public class DetailsActivity extends AppCompatActivity {
     private ReviewAdapter mReviewAdapter;
 
     private RecyclerView mTrailersRecyclerView;
-    private TextView mTrailerLabelTextView;
     private TrailerAdapter mTrailerAdapter;
 
     @Override
@@ -87,7 +91,7 @@ public class DetailsActivity extends AppCompatActivity {
             mReviewsRecyclerView.setAdapter(mReviewAdapter);
             loadReview(movieId);
 
-            mTrailerAdapter = new TrailerAdapter();
+            mTrailerAdapter = new TrailerAdapter(this);
             mTrailersRecyclerView.setAdapter(mTrailerAdapter);
             loadTrailers(movie.getId());
         }
@@ -180,5 +184,17 @@ public class DetailsActivity extends AppCompatActivity {
                          }
                      }
         );
+    }
+
+    @Override
+    public void onTrailerItemClick(Trailer trailer) {
+        final Uri trailerUri = Uri.parse(trailer.getLink());
+        final Intent trailerIntent = new Intent(Intent.ACTION_VIEW, trailerUri);
+        if (null != trailerIntent.resolveActivity(getPackageManager())) {
+            startActivity(trailerIntent);
+        } else {
+            Log.w(LOG_TAG, "No video player app found on the device.");
+            Toast.makeText(this, "Cannot find video player app.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
