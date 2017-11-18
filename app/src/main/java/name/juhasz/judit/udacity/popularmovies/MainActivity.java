@@ -17,7 +17,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import name.juhasz.judit.udacity.popularmovies.data.MoviesContract;
 
@@ -25,6 +26,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         FetchMoviesTask.Listener, LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    private static final String SAVED_CURRENT_SELECTED_MOVIE_LIST_KEY = "saved-current-selected-movie-list-key";
+    private static final String SAVED_MOVIES_KEY = "saved-movies-key";
 
     private static final int ID_LOADER_FAVORITE_MOVIES = 1;
 
@@ -54,9 +58,28 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mMoviesRecyclerView.setLayoutManager(layoutManager);
 
         showLoadProgressBar();
-        loadMovieList(FetchMoviesTask.MOVIE_LIST_POPULAR);
+
+        if (null == savedInstanceState) {
+            loadMovieList(FetchMoviesTask.MOVIE_LIST_POPULAR);
+        } else {
+            final ArrayList<Movie> savedMovieList = savedInstanceState.getParcelableArrayList(SAVED_MOVIES_KEY);
+            final Movie[] savedMovieArray = savedMovieList.toArray(new Movie[0]);
+            mAdapter.setMoviesData(savedMovieArray);
+            mSelectedMovieList = savedInstanceState.getInt(SAVED_CURRENT_SELECTED_MOVIE_LIST_KEY);
+            showMoviesList();
+        }
+
         getLoaderManager().initLoader(ID_LOADER_FAVORITE_MOVIES, null, this);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        final ArrayList<Movie> movies = new ArrayList(Arrays.asList(mAdapter.getMovies()));
+        outState.putParcelableArrayList(SAVED_MOVIES_KEY, movies);
+        outState.putInt(SAVED_CURRENT_SELECTED_MOVIE_LIST_KEY, mSelectedMovieList);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
