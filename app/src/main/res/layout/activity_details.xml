@@ -10,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" >
 
         <TextView
             android:id="@+id/tv_movie_title"
@@ -58,22 +58,24 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:textAppearanceSmall"
             android:layout_below="@id/iv_movie_poster"
-            android:layout_marginTop="@dimen/margin_normal"/>
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_large"/>
         
         <Button
             android:id="@+id/b_favorite_movie"
+            android:onClick="onClickFavoritesButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="Favorite"
-            android:onClick="onClickFavoritesButton"
-            android:layout_below="@id/tv_movie_synopsis"
-            android:layout_marginTop="@dimen/margin_normal"/>
+            android:layout_below="@id/tv_movie_release_date"
+            android:layout_toRightOf="@id/iv_movie_poster"
+            android:layout_marginTop="@dimen/margin_large" />
 
         <TextView
             android:id="@+id/tv_trailers_label"
             style="@style/LabelSyle"
             android:text="@string/label_trailers"
-            android:layout_below="@id/b_favorite_movie" />
+            android:layout_below="@id/tv_movie_synopsis" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_trailers"
@@ -81,6 +83,8 @@
             android:layout_height="wrap_content"
             app:layoutManager="LinearLayoutManager"
             android:orientation="horizontal"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_large"
             android:layout_below="@id/tv_trailers_label" />
 
         <TextView
@@ -94,8 +98,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="LinearLayoutManager"
+            android:layout_marginTop="@dimen/margin_normal"
             android:layout_below="@id/tv_review_label" />
-        
-    </RelativeLayout>
 
+    </RelativeLayout>
 </ScrollView>
