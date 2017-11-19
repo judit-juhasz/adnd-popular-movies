@@ -38,6 +38,7 @@ public class DetailsActivity extends AppCompatActivity implements TrailerAdapter
     private ReviewAdapter mReviewAdapter;
 
     private RecyclerView mTrailersRecyclerView;
+    private TextView mTrailerLabelTextView;
     private TrailerAdapter mTrailerAdapter;
 
     @Override
@@ -52,8 +53,10 @@ public class DetailsActivity extends AppCompatActivity implements TrailerAdapter
         final TextView movieSynopsisTextView = (TextView) findViewById(R.id.tv_movie_synopsis);
         final ImageView moviePosterImageView = (ImageView) findViewById(R.id.iv_movie_poster);
         final Button favoriteMovieButton = (Button) findViewById(R.id.b_favorite_movie);
+
         mReviewLabelTextView = (TextView) findViewById(R.id.tv_review_label);
         mReviewsRecyclerView = (RecyclerView) findViewById(R.id.rv_movies_reviews);
+        mTrailerLabelTextView = findViewById(R.id.tv_trailers_label);
         mTrailersRecyclerView = (RecyclerView) findViewById(R.id.rv_trailers);
 
         final Intent intent = getIntent();
@@ -142,6 +145,11 @@ public class DetailsActivity extends AppCompatActivity implements TrailerAdapter
                              if (response.isSuccessful()) {
                                  final List<Review> reviews = response.body().getReviews();
                                  mReviewAdapter.setReviews(reviews.toArray(new Review[0]));
+
+                                 if (reviews.isEmpty()) {
+                                     mReviewLabelTextView.setVisibility(View.GONE);
+                                     mReviewsRecyclerView.setVisibility(View.GONE);
+                                 }
                              }
                          }
 
@@ -174,13 +182,19 @@ public class DetailsActivity extends AppCompatActivity implements TrailerAdapter
                              if (response.isSuccessful()) {
                                  final List<Trailer> trailers = response.body().getTrailers();
                                  mTrailerAdapter.setTrailers(trailers.toArray(new Trailer[0]));
+
+                                 if (trailers.isEmpty()) {
+                                     mTrailerLabelTextView.setVisibility(View.GONE);
+                                     mTrailersRecyclerView.setVisibility(View.GONE);
+                                 }
                              }
                          }
 
                          @Override
                          public void onFailure(final Call<TrailerListResponse> call,
                                                final Throwable t) {
-
+                             mTrailerLabelTextView.setVisibility(View.GONE);
+                             mTrailersRecyclerView.setVisibility(View.GONE);
                          }
                      }
         );
