@@ -6,5 +6,6 @@
     <dimen name="margin_small">4dp</dimen>
     <dimen name="details_activity_poster_width">150dp</dimen>
     <dimen name="details_activity_poster_height">200dp</dimen>
-    <dimen name="separated_line_height">1dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="divider_margin">50dp</dimen>
 </resources>

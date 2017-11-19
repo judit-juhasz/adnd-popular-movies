@@ -36,21 +36,21 @@
             android:layout_alignParentLeft="true"/>
 
         <TextView
+            android:id="@+id/tv_movie_vote_average"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:layout_toRightOf="@id/iv_movie_poster"
+            android:layout_below="@id/tv_movie_original_title"
+            android:layout_marginBottom="@dimen/margin_small" />
+
+        <TextView
             android:id="@+id/tv_movie_release_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:textAppearanceSmall"
-            android:layout_toRightOf="@id/iv_movie_poster"
-            android:layout_below="@id/tv_movie_original_title"
-            android:layout_marginBottom="@dimen/margin_small"/>
-
-        <TextView
-            android:id="@+id/tv_movie_vote_average"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:layout_below="@id/tv_movie_release_date"
-            android:layout_toRightOf="@id/iv_movie_poster"/>
+            android:layout_below="@id/tv_movie_vote_average"
+            android:layout_toRightOf="@id/iv_movie_poster" />
 
         <TextView
             android:id="@+id/tv_movie_synopsis"
@@ -72,7 +72,7 @@
         <TextView
             android:id="@+id/tv_trailers_label"
             style="@style/LabelSyle"
-            android:text="Trailers"
+            android:text="@string/label_trailers"
             android:layout_below="@id/b_favorite_movie" />
 
         <android.support.v7.widget.RecyclerView
@@ -86,7 +86,7 @@
         <TextView
             android:id="@+id/tv_review_label"
             style="@style/LabelSyle"
-            android:text="Reviews"
+            android:text="@string/label_reviews"
             android:layout_below="@id/rv_trailers" />
 
         <android.support.v7.widget.RecyclerView

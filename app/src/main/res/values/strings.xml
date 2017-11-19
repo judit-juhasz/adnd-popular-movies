@@ -14,5 +14,6 @@
     <string name="average_vote_format">Rating: <xliff:g example="3.4" id="average_vote">%s</xliff:g> / 10</string>
     <string name="original_title_format">(<xliff:g example="Original title" id="title">%s</xliff:g>)</string>
     <string name="release_date_format">Release date: <xliff:g example="01. 21. 2017" id="release_date">%s</xliff:g></string>
-    <string name="review_author">Author: </string>
+    <string name="label_trailers">Trailers </string>
+    <string name="label_reviews">Reviews</string>
 </resources>

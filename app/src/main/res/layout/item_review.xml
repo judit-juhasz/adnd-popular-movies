@@ -8,13 +8,24 @@
         android:id="@+id/tv_review_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/textColorSecondary" />
 
     <TextView
         android:id="@+id/tv_review_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="italic"
-        android:layout_marginBottom="16dp"/>
+        android:textColor="@color/textColorSecondary"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginLeft="@dimen/divider_margin"
+        android:layout_marginRight="@dimen/divider_margin"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_normal"
+        android:background="@color/colorDivider"/>
 
 </LinearLayout>

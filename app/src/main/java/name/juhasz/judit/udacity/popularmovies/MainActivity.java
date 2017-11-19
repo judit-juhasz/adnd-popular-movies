@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mAdapter = new MovieAdapter(listener);
         mMoviesRecyclerView.setAdapter(mAdapter);
 
-        final int spanCount = 2;
+        final int spanCount = 3;
         GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);
         mMoviesRecyclerView.setLayoutManager(layoutManager);
 
