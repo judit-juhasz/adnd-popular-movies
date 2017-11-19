@@ -5,7 +5,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-
 interface TheMovieDbService {
 
     static final String BASE_URL = "http://api.themoviedb.org/3/";
