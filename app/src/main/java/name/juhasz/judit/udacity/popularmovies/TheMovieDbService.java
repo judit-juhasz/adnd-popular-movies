@@ -7,7 +7,7 @@ import retrofit2.http.Query;
 
 interface TheMovieDbService {
 
-    static final String BASE_URL = "http://api.themoviedb.org/3/";
+    public static final String BASE_URL = "http://api.themoviedb.org/3/";
 
     @GET("movie/popular/")
     Call<MovieListResponse> getPopularMovies(@Query("api_key") String apiKey);
