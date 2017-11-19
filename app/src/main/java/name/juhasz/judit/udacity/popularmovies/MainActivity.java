@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -53,7 +54,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mAdapter = new MovieAdapter(listener);
         mMoviesRecyclerView.setAdapter(mAdapter);
 
-        final int spanCount = 3;
+        int spanCount = 2;
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            spanCount = 3;
+        }
+
         GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);
         mMoviesRecyclerView.setLayoutManager(layoutManager);
 
