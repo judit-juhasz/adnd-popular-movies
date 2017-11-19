@@ -8,4 +8,5 @@
     <dimen name="details_activity_poster_height">200dp</dimen>
     <dimen name="divider_height">1dp</dimen>
     <dimen name="divider_margin">50dp</dimen>
+    <dimen name="padding_thumbnail_trailer">5dp</dimen>
 </resources>

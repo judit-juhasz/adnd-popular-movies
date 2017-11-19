@@ -7,7 +7,7 @@
         android:id="@+id/iv_trailer_thumbnail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp" />
+        android:paddingLeft="@dimen/padding_thumbnail_trailer"
+        android:paddingRight="@dimen/padding_thumbnail_trailer" />
 
 </LinearLayout>
