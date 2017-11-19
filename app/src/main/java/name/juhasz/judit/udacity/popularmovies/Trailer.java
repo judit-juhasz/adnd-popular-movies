@@ -1,6 +1,5 @@
 package name.juhasz.judit.udacity.popularmovies;
 
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -11,7 +10,6 @@ public final class Trailer implements Parcelable {
     private static final String VIDEO_LINK_BASE_URL = "https://www.youtube.com/watch?v=";
     private static final String VIDEO_THUMBNAIL_URL_PATTERN =
             "https://img.youtube.com/vi/%s/mqdefault.jpg";
-
 
     @SerializedName("name")
     private String mName;

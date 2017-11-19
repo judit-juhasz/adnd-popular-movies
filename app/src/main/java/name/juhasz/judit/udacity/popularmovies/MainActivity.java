@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         outState.putInt(SAVED_CURRENT_SELECTED_MOVIE_LIST_KEY, mSelectedMovieList);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu_item_list, menu);

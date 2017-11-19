@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-
 public class Review implements Parcelable{
 
     @SerializedName("author")
@@ -28,7 +27,6 @@ public class Review implements Parcelable{
     public String getUrl() {
         return mUrl;
     }
-
 
     public Review(Parcel in) {
         mAuthor = in.readString();

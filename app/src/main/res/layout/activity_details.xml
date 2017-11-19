@@ -102,4 +102,5 @@
             android:layout_below="@id/tv_review_label" />
 
     </RelativeLayout>
+
 </ScrollView>
