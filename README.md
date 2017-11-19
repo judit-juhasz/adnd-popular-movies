@@ -6,7 +6,7 @@ The Popular Movies App for Udacity's Android Developer Nanodegree by Google **Fo
 
 ### Pictures
 
-![Demo screeens](https://farm5.staticflickr.com/4467/37538309592_b3011cd2b0_o.png)
+![Demo screeens](https://farm5.staticflickr.com/4566/24648691978_ba95111c38_o.png)
 
 ## Application secrets
 
